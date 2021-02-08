@@ -18,7 +18,7 @@ public class ORDSTests {
     // according to OOP convention, all instance variables should be private
     // but, if we will make it public, it will not make any difference for us
     // it's just good practice, so later we will not hesitate which keyword to use when it's gonna be important.
-    private String baseURI = "http://ec2-3-84-218-226.compute-1.amazonaws.com:1000/ords/hr";
+    private String baseURI = "http://.compute-1.amazonaws.com:1000/ords/hr";
 
 
     // we start from given()
@@ -54,7 +54,7 @@ public class ORDSTests {
 
         // get information about response content type, you can retrieve from response object
         System.out.println("What kind of content server sends to you, in this response: " +
-                            response.getHeader("Content-Type"));
+                response.getHeader("Content-Type"));
     }
 
     // Task: perform GET request to /regions, print body and all headers.
