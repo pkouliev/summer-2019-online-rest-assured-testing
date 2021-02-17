@@ -1,5 +1,6 @@
 package com.automation.tests.day2;
 
+import com.automation.utilities.ConfigurationReader;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
@@ -18,11 +19,11 @@ public class ORDSTests {
     // according to OOP convention, all instance variables should be private
     // but, if we will make it public, it will not make any difference for us
     // it's just good practice, so later we will not hesitate which keyword to use when it's gonna be important.
-    private String baseURI = "http://.compute-1.amazonaws.com:1000/ords/hr";
+    private String baseURI = ConfigurationReader.getValue("ords.uri");
 
 
     // we start from given()
-    // then we can sepcify type of request like: get(), put(), delete(), post()
+    // then we can specify type of request like: get(), put(), delete(), post()
     // and as parameter, we enter resource location (URI)
     // then we are getting response back that response we can put into Response object
     // from response object, we can retrieve: body, header, status code
@@ -81,7 +82,6 @@ public class ORDSTests {
         }
 
         System.out.println("###############################################################");
-
 
     }
 }
