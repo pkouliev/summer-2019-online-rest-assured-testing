@@ -11,7 +11,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.Matchers.*;
 import static com.automation.utilities.utils.*;
 
