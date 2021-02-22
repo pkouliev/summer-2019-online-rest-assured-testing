@@ -8,10 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.*;
@@ -80,7 +77,7 @@ public class ORDSTestsDay4 {
         Response response = given().
                 accept(ContentType.JSON).
                 queryParam("q", "{\"country_id\":\"US\"}").
-                get("/countries");
+                get("/countries"); // new Response()
 
         JsonPath jsonPath = response.jsonPath();
 
@@ -143,6 +140,11 @@ public class ORDSTestsDay4 {
 
         // to use List.of() set java 9 at least
         List<String> expected = List.of("Argentina", "Brazil",
+                "Canada", "Mexico", "United States of America");
+
+        // or
+
+        List<String> expected_alt = Arrays.asList("Argentina", "Brazil",
                 "Canada", "Mexico", "United States of America");
 
         Response response = given().
