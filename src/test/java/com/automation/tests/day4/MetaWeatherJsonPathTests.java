@@ -179,14 +179,14 @@ public class MetaWeatherJsonPathTests {
                 then().
                 assertThat().
                 statusCode(200).
-                body("location_type", hasItem("City")).
+                body("location_type", everyItem(is("City"))).
                 log().body(true);
     }
 
     /**
      * TASK 5:
      * Given accept type is JSON
-     * When users sends a GET request to "/location"
+     * When users sends a GET request to "/location/{woeid}"
      * And path parameter is '44418'
      * Then verify following that payload contains weather forecast sources titles
      * |BBC                 |
@@ -209,8 +209,21 @@ public class MetaWeatherJsonPathTests {
                 assertThat().
                 statusCode(200).
                 body("sources.title", contains("BBC", "Forecast.io", "HAMweather", "Met Office", "OpenWeatherMap",
-                        "Weather Underground", "World Weather Online")).
-                log().body(true);
+                        "Weather Underground", "World Weather Online"));
+
+        // alternative - without hamcrest
+        List<String> expected = List.of("BBC", "Forecast.io", "HAMweather", "Met Office", "OpenWeatherMap",
+                "Weather Underground", "World Weather Online");
+
+        Response response = given().
+                accept(ContentType.JSON).
+                pathParam("woeid", 44418).
+                when().
+                get("/location/{woeid}").prettyPeek();
+
+        List<String> actual = response.jsonPath().getList("sources.title");
+
+        assertEquals(expected, actual);
     }
 
 
