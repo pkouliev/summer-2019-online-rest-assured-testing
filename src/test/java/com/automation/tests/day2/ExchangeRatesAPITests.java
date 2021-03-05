@@ -1,6 +1,7 @@
 package com.automation.tests.day2;
 
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class ExchangeRatesAPITests {
 
 
     @Test
+    @DisplayName("Verify Header Content Type is json")
     public void test2() {
         Response response = given().get(baseURI + "latest");
         assertEquals(200, response.getStatusCode());
