@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.automation.utilities.utils.space;
@@ -84,10 +85,56 @@ public class APIUtilities {
 
         List<Integer> userIDs = response.jsonPath().getList("id");
 
-        for (int n = 0; n < userIDs.size(); n++) {
-            when().delete("/spartans/{id}", userIDs.get(n)).
+        for (Integer userID : userIDs) {
+            when().delete("/spartans/{id}", userID).
                     then().assertThat().statusCode(204);
-            System.out.println("Deleted spartan with id: " + userIDs.get(n));
+            System.out.println("Deleted spartan with id: " + userID);
         }
+    }
+
+    /**
+     * Method that generates access token
+     *
+     * @return bearer token
+     */
+    public static String getTokenForBookit() {
+        // https://cybertek-reservation-api-qa.herokuapp.com/sign?email={value}&password={value}
+        Response response = given().
+                queryParam("email", ConfigurationReader.getValue("team.leader.email")).
+                queryParam("password", ConfigurationReader.getValue("team.leader.password")).
+                when().
+                get("/sign").prettyPeek();
+
+        return response.jsonPath().getString("accessToken");
+    }
+
+    /**
+     * Method that generates access token
+     *
+     * @param role - type of user. allowed types: student team leader, student team member and teacher
+     * @return bearer token
+     */
+    public static String getTokenForBookit(String role) {
+        String userName;
+        String password;
+        if (role.toLowerCase().contains("lead")) {
+            userName = ConfigurationReader.getValue("team.leader.email");
+            password = ConfigurationReader.getValue("team.leader.password");
+        } else if (role.toLowerCase().contains("teacher")) {
+            userName = ConfigurationReader.getValue("teacher.email");
+            password = ConfigurationReader.getValue("teacher.password");
+        } else if (role.toLowerCase().contains("member")) {
+            userName = ConfigurationReader.getValue("team.member.email");
+            password = ConfigurationReader.getValue("team.member.password");
+        } else {
+            throw new RuntimeException("Invalid user type");
+        }
+        Response response = given().
+                queryParam("email", ConfigurationReader.getValue("team.leader.email")).
+                queryParam("password", ConfigurationReader.getValue("team.leader.password")).
+                when().
+                get("/sign").prettyPeek();
+
+        return response.jsonPath().getString("accessToken");
     }
 }
