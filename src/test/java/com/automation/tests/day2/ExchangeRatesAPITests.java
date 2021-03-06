@@ -66,7 +66,6 @@ public class ExchangeRatesAPITests {
 
         String todaysDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         System.out.println("Today's date: " + todaysDate);
-        assertEquals(200, response.statusCode());
         assertTrue(response.getBody().asString().contains(todaysDate));
     }
 
@@ -81,9 +80,9 @@ public class ExchangeRatesAPITests {
                 queryParam("end_at", "2000-12-31").
                 queryParam("base", "USD").
                 queryParam("symbols", "CAD", "JPY", "EUR", "GBP").
-                get();
+                get().prettyPeek();
 
-        System.out.println(response.prettyPrint());
+        // System.out.println(response.prettyPrint());
 
     }
 
